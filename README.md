@@ -1,24 +1,24 @@
 # diff_dirs
 
-Rekursiver Projektordner-Vergleich für Projekte ohne Git.
-Vergleicht zwei Versionen eines Projekts und zeigt alle Unterschiede –
-neue, gelöschte und geänderte Dateien mit zeilengenauem Diff.
+Recursive project folder comparison for projects without Git.
+Compares two versions of a project and shows all differences –
+new, deleted, and modified files with line-by-line diff.
 
 ---
 
-## Wofür?
+## What For?
 
-Wenn du an einem Projekt (React, Next.js, Java, …) arbeitest und **kein Git** zur Verfügung hast,
-musst du Änderungen zwischen Original und angepasster Version manuell nachvollziehen.
-Dieses Tool macht das automatisch: es scannt beide Ordner rekursiv, vergleicht jede Datei
-per Hash und zeigt dir exakt, was sich wo geändert hat – im Terminal und optional als HTML-Report.
+When you're working on a project (React, Next.js, Java, …) and **don't have Git** available,
+you have to manually track changes between the original and modified version.
+This tool automates that: it scans both folders recursively, compares each file
+by hash, and shows you exactly what changed where – in the terminal and optionally as an HTML report.
 
 ---
 
-## Voraussetzungen
+## Requirements
 
 - **Python 3.8+**
-- **PyYAML** – einmalig installieren:
+- **PyYAML** – install once:
 
 ```bash
 pip install pyyaml
@@ -26,44 +26,44 @@ pip install pyyaml
 
 ---
 
-## Schnellstart
+## Quick Start
 
 ```bash
-# 1. Beispiel-Config erzeugen
+# 1. Generate example config
 python diff_dirs.py --init
 
-# 2. Config anpassen (Pfade setzen)
-#    → diff_dirs.yaml öffnen und original / modified eintragen
+# 2. Adjust config (set paths)
+#    → open diff_dirs.yaml and enter original / modified paths
 
-# 3. Ausführen
+# 3. Run
 python diff_dirs.py
 ```
 
-Das wars. Das Script sucht automatisch nach `diff_dirs.yaml` im aktuellen Verzeichnis.
+That's it. The script automatically looks for `diff_dirs.yaml` in the current directory.
 
 ---
 
-## Konfiguration
+## Configuration
 
-Alle Einstellungen stehen in einer einzigen YAML-Datei. Mit `--init` wird eine
-kommentierte Vorlage erzeugt:
+All settings are in a single YAML file. Use `--init` to generate a
+commented template:
 
 ```yaml
-# Pflichtfelder – Pfade relativ zur Config-Datei oder absolut
-original: ./projekt-v1
-modified: ./projekt-v2
+# Required fields – paths relative to config file or absolute
+original: ./project-v1
+modified: ./project-v2
 
-# Ausgabe
+# Output
 output:
-  html: true                    # HTML-Report erzeugen
-  html_path: ./diff-report.html # Pfad zum Report
-  color: true                   # Farbige Terminal-Ausgabe
-  show_content: true            # Inhalts-Diffs anzeigen (false = nur Dateiliste)
-  context_lines: 3              # Kontextzeilen um jede Änderung
+  html: true                    # Generate HTML report
+  html_path: ./diff-report.html # Path to report
+  color: true                   # Colored terminal output
+  show_content: true            # Show content diffs (false = file list only)
+  context_lines: 3              # Context lines around each change
 
 # Filter
 filter:
-  ignore_dirs:                  # Ordner komplett ignorieren
+  ignore_dirs:                  # Completely ignore directories
     - node_modules
     - .next
     - dist
@@ -75,13 +75,13 @@ filter:
     - .idea
     - .vscode
 
-  ignore_files:                 # Dateimuster ignorieren (glob-Syntax)
+  ignore_files:                 # Ignore file patterns (glob syntax)
     - "*.log"
     - ".DS_Store"
     - "Thumbs.db"
     - "*.pyc"
 
-  # Nur bestimmte Dateitypen vergleichen (auskommentiert = alle)
+  # Only compare specific file types (commented out = all)
   # extensions:
   #   - .ts
   #   - .tsx
@@ -90,115 +90,115 @@ filter:
   #   - .css
 ```
 
-### Config-Referenz
+### Config Reference
 
-| Feld | Typ | Default | Beschreibung |
+| Field | Type | Default | Description |
 |---|---|---|---|
-| `original` | string | *Pflicht* | Pfad zum Original-Ordner |
-| `modified` | string | *Pflicht* | Pfad zum geänderten Ordner |
-| `output.html` | bool | `false` | HTML-Report erzeugen |
-| `output.html_path` | string | `./diff-report.html` | Speicherort des Reports |
-| `output.color` | bool | `true` | ANSI-Farben im Terminal |
-| `output.show_content` | bool | `true` | Zeilengenaue Diffs anzeigen |
-| `output.context_lines` | int | `3` | Kontextzeilen pro Änderung |
-| `filter.ignore_dirs` | list | *siehe oben* | Ordnernamen die übersprungen werden |
-| `filter.ignore_files` | list | `[]` | Glob-Patterns für Dateien |
-| `filter.extensions` | list | *alle* | Whitelist für Dateiendungen |
+| `original` | string | *Required* | Path to original folder |
+| `modified` | string | *Required* | Path to modified folder |
+| `output.html` | bool | `false` | Generate HTML report |
+| `output.html_path` | string | `./diff-report.html` | Report save location |
+| `output.color` | bool | `true` | ANSI colors in terminal |
+| `output.show_content` | bool | `true` | Show line-by-line diffs |
+| `output.context_lines` | int | `3` | Context lines per change |
+| `filter.ignore_dirs` | list | *see above* | Directory names to skip |
+| `filter.ignore_files` | list | `[]` | Glob patterns for files |
+| `filter.extensions` | list | *all* | Whitelist for file extensions |
 
-### Pfade
+### Paths
 
-Alle Pfade in der Config werden **relativ zur Config-Datei** aufgelöst.
-Absolute Pfade funktionieren ebenfalls.
+All paths in the config are resolved **relative to the config file**.
+Absolute paths work as well.
 
 ```yaml
-# Config liegt in /home/user/configs/diff_dirs.yaml
-original: ../projekte/app-v1       # → /home/user/projekte/app-v1
-modified: /opt/builds/app-v2       # → /opt/builds/app-v2 (absolut)
+# Config is located at /home/user/configs/diff_dirs.yaml
+original: ../projects/app-v1       # → /home/user/projects/app-v1
+modified: /opt/builds/app-v2       # → /opt/builds/app-v2 (absolute)
 ```
 
 ---
 
-## Verwendung
+## Usage
 
 ```bash
-# Standard – sucht diff_dirs.yaml im aktuellen Ordner
+# Default – looks for diff_dirs.yaml in current folder
 python diff_dirs.py
 
-# Eigene Config angeben
-python diff_dirs.py mein-vergleich.yaml
+# Specify custom config
+python diff_dirs.py my-comparison.yaml
 
-# Neue Beispiel-Config erzeugen
+# Generate new example config
 python diff_dirs.py --init
 ```
 
-### Mehrere Vergleiche
+### Multiple Comparisons
 
-Du kannst mehrere Config-Dateien für verschiedene Vergleiche anlegen:
+You can create multiple config files for different comparisons:
 
 ```bash
-python diff_dirs.py frontend.yaml    # nur Frontend vergleichen
-python diff_dirs.py backend.yaml     # nur Backend vergleichen
-python diff_dirs.py alles.yaml       # Gesamtprojekt
+python diff_dirs.py frontend.yaml    # compare frontend only
+python diff_dirs.py backend.yaml     # compare backend only
+python diff_dirs.py everything.yaml  # entire project
 ```
 
 ---
 
-## Ausgabe
+## Output
 
 ### Terminal
 
-Das Script zeigt eine farbige Zusammenfassung mit:
+The script shows a colored summary with:
 
-- Übersicht (Anzahl Dateien, Änderungen, Zeilen +/-)
-- Aufschlüsselung nach Dateityp (TypeScript, Java, CSS, …)
-- Liste neuer, gelöschter und binär geänderter Dateien
-- Zeilengenaue Diffs für geänderte Textdateien
+- Overview (file count, changes, lines +/-)
+- Breakdown by file type (TypeScript, Java, CSS, …)
+- List of new, deleted, and binary-changed files
+- Line-by-line diffs for modified text files
 
 ```
 ══════════════════════════════════════════════════════════════════════
   DIRECTORY DIFF REPORT
 ══════════════════════════════════════════════════════════════════════
-  Original:  /home/user/projekt-v1
-  Geändert:  /home/user/projekt-v2
+  Original:  /home/user/project-v1
+  Modified:  /home/user/project-v2
 
-  ÜBERSICHT
-  Dateien im Original:    142
-  Dateien in Geändert:    148
-  Unverändert:            130
-  + Neue Dateien:          8
-  - Gelöschte Dateien:     2
-  ~ Geänderte Dateien:     10
-  Zeilen hinzugefügt:      +234
-  Zeilen entfernt:         -87
+  OVERVIEW
+  Files in Original:       142
+  Files in Modified:       148
+  Unchanged:               130
+  + New Files:               8
+  - Deleted Files:           2
+  ~ Modified Files:         10
+  Lines Added:            +234
+  Lines Removed:           -87
 
-  NACH DATEITYP
+  BY FILE TYPE
     React TSX            +3 ~5
     TypeScript           +2 ~2
     CSS                  ~3
     Java                 -2
 ```
 
-### HTML-Report
+### HTML Report
 
-Mit `output.html: true` wird ein interaktiver HTML-Report generiert:
+With `output.html: true` an interactive HTML report is generated:
 
-- Dark-Theme im GitHub-Stil
-- Statistik-Cards mit Übersicht
-- Suchfeld zum Filtern nach Dateinamen
-- Aufklappbare Diffs pro Datei
-- Syntax-Highlighting für Additions/Deletions
+- Dark theme in GitHub style
+- Statistic cards with overview
+- Search field to filter by filename
+- Collapsible diffs per file
+- Syntax highlighting for additions/deletions
 
-Einfach im Browser öffnen – keine weiteren Abhängigkeiten.
+Just open in browser – no additional dependencies.
 
 ---
 
-## Typische Setups
+## Typical Setups
 
-### Next.js / React Projekt
+### Next.js / React Project
 
 ```yaml
 original: ./app-original
-modified: ./app-angepasst
+modified: ./app-modified
 
 output:
   html: true
@@ -217,7 +217,7 @@ filter:
     - "yarn.lock"
 ```
 
-### Java / Spring Projekt
+### Java / Spring Project
 
 ```yaml
 original: ./backend-v1
@@ -244,7 +244,7 @@ filter:
     - .yaml
 ```
 
-### Nur Frontend-Code prüfen
+### Check Frontend Code Only
 
 ```yaml
 original: ./v1
@@ -268,37 +268,37 @@ filter:
     - .scss
 ```
 
-### Schnellübersicht ohne Diffs
+### Quick Overview Without Diffs
 
 ```yaml
 original: ./v1
 modified: ./v2
 
 output:
-  show_content: false    # nur Dateiliste, keine Inhalte
+  show_content: false    # file list only, no content
   html: false
 ```
 
 ---
 
-## Erkannte Dateitypen
+## Recognized File Types
 
-Das Tool erkennt und gruppiert folgende Dateitypen in der Statistik:
+The tool recognizes and groups the following file types in statistics:
 
 TypeScript, React TSX, JavaScript, React JSX, Java, Python, CSS, SCSS,
 HTML, JSON, YAML, XML, Markdown, SQL, Shell, Environment, Properties,
-Gradle, TOML, Config. Andere Dateitypen werden anhand ihrer Endung angezeigt.
+Gradle, TOML, Config. Other file types are displayed by their extension.
 
-Binärdateien (Bilder, Fonts, Archive, etc.) werden per Hash verglichen
-und als „binär geändert" gemeldet – ohne Inhalts-Diff.
+Binary files (images, fonts, archives, etc.) are compared by hash
+and reported as "binary changed" – without content diff.
 
 ---
 
-## Projektstruktur
+## Project Structure
 
 ```
-diff_dirs.py        # Das Script
-diff_dirs.yaml      # Deine Konfiguration (wird mit --init erzeugt)
-diff-report.html    # HTML-Report (wird bei html: true erzeugt)
-README.md           # Diese Datei
+diff_dirs.py        # The script
+diff_dirs.yaml      # Your configuration (generated with --init)
+diff-report.html    # HTML report (generated when html: true)
+README.md           # This file
 ```
