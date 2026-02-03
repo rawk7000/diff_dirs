@@ -4,6 +4,10 @@ Recursive project folder comparison for projects without Git.
 Compares two versions of a project and shows all differences –
 new, deleted, and modified files with line-by-line diff.
 
+![HTML Report Example](screenshot.png)
+
+> Open [example-report.html](example-report.html) in your browser to see a live demo.
+
 ---
 
 ## What For?
@@ -76,7 +80,6 @@ filter:
     - .vscode
 
   ignore_files:                 # Ignore file patterns (glob syntax)
-    - "*.log"
     - ".DS_Store"
     - "Thumbs.db"
     - "*.pyc"
@@ -168,6 +171,7 @@ The script shows a colored summary with:
   + New Files:               8
   - Deleted Files:           2
   ~ Modified Files:         10
+  ~ Binary Modified:         3
   Lines Added:            +234
   Lines Removed:           -87
 
@@ -175,7 +179,8 @@ The script shows a colored summary with:
     React TSX            +3 ~5
     TypeScript           +2 ~2
     CSS                  ~3
-    Java                 -2
+    Log                  ~2
+    Python               -2
 ```
 
 ### HTML Report
@@ -212,7 +217,6 @@ filter:
     - build
     - .git
   ignore_files:
-    - "*.log"
     - "package-lock.json"
     - "yarn.lock"
 ```
@@ -287,9 +291,11 @@ The tool recognizes and groups the following file types in statistics:
 
 TypeScript, React TSX, JavaScript, React JSX, Java, Python, CSS, SCSS,
 HTML, JSON, YAML, XML, Markdown, SQL, Shell, Environment, Properties,
-Gradle, TOML, Config. Other file types are displayed by their extension.
+Gradle, TOML, Config, Log, Text, INI, Batch, PowerShell.
 
-Binary files (images, fonts, archives, etc.) are compared by hash
+Other file types are displayed by their extension.
+
+Binary files (images, fonts, archives, databases, etc.) are compared by hash
 and reported as "binary changed" – without content diff.
 
 ---
@@ -297,8 +303,10 @@ and reported as "binary changed" – without content diff.
 ## Project Structure
 
 ```
-diff_dirs.py        # The script
-diff_dirs.yaml      # Your configuration (generated with --init)
-diff-report.html    # HTML report (generated when html: true)
-README.md           # This file
+diff_dirs.py          # The script
+diff_dirs.yaml        # Your configuration (generated with --init)
+diff-report.html      # HTML report (generated when html: true)
+example-report.html   # Example HTML report for reference
+screenshot.png        # Screenshot for README
+README.md             # This file
 ```
