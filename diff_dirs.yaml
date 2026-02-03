@@ -43,7 +43,7 @@ filter:
 
   # Files/patterns to ignore (glob syntax)
   ignore_files:
-    - "*.log"
+    # - "*.log"          # uncomment to ignore log files
     - ".DS_Store"
     - "Thumbs.db"
     - "*.pyc"

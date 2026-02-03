@@ -56,56 +56,101 @@
 <body>
 <h1>📂 Directory Diff Report</h1>
 <div class="meta">
-    Original: <strong>/home/claude/test_original</strong><br>
-    Modified: <strong>/home/claude/test_modified</strong><br>
+    Original: <strong>C:\Projects\my-app-v1</strong><br>
+    Modified: <strong>C:\Projects\my-app-v2</strong><br>
     Created: 2026-02-03 16:12:47
 </div>
 
 <div class="summary">
-    <div class="stat-card"><div class="number" style="color:var(--green)">1</div><div class="label">New Files</div></div>
-    <div class="stat-card"><div class="number" style="color:var(--red)">1</div><div class="label">Deleted</div></div>
-    <div class="stat-card"><div class="number" style="color:var(--yellow)">3</div><div class="label">Modified</div></div>
-    <div class="stat-card"><div class="number" style="color:var(--magenta)">0</div><div class="label">Binary Modified</div></div>
-    <div class="stat-card"><div class="number">+13</div><div class="label">Lines Added</div></div>
-    <div class="stat-card"><div class="number" style="color:var(--red)">-7</div><div class="label">Lines Removed</div></div>
-    <div class="stat-card"><div class="number" style="color:#8b949e">0</div><div class="label">Unchanged</div></div>
+    <div class="stat-card"><div class="number" style="color:var(--green)">4</div><div class="label">New Files</div></div>
+    <div class="stat-card"><div class="number" style="color:var(--red)">5</div><div class="label">Deleted</div></div>
+    <div class="stat-card"><div class="number" style="color:var(--yellow)">6</div><div class="label">Modified</div></div>
+    <div class="stat-card"><div class="number" style="color:var(--magenta)">3</div><div class="label">Binary Modified</div></div>
+    <div class="stat-card"><div class="number">+89</div><div class="label">Lines Added</div></div>
+    <div class="stat-card"><div class="number" style="color:var(--red)">-34</div><div class="label">Lines Removed</div></div>
+    <div class="stat-card"><div class="number" style="color:#8b949e">42</div><div class="label">Unchanged</div></div>
 </div>
 
 <div class="filter"><input type="text" id="searchBox" placeholder="🔍 Filter filenames..." oninput="filterFiles()"></div>
 
-<div class="section-title" style="color:var(--green)">+ New Files (1)</div><ul class="file-list"><li class="filterable" data-name="src/utils/helpers.ts"><span class="status add">+</span> src/utils/helpers.ts <span class="lang">(98.0 B)</span></li></ul>
+<div class="section-title" style="color:var(--green)">+ New Files (4)</div>
+<ul class="file-list">
+    <li class="filterable" data-name="src/services/analytics.py"><span class="status add">+</span> src/services/analytics.py <span class="lang">(2.4 KB)</span></li>
+    <li class="filterable" data-name="src/utils/cache.py"><span class="status add">+</span> src/utils/cache.py <span class="lang">(1.1 KB)</span></li>
+    <li class="filterable" data-name="config/settings.yaml"><span class="status add">+</span> config/settings.yaml <span class="lang">(856.0 B)</span></li>
+    <li class="filterable" data-name="tests/test_analytics.py"><span class="status add">+</span> tests/test_analytics.py <span class="lang">(1.8 KB)</span></li>
+</ul>
 
-<div class="section-title" style="color:var(--red)">- Deleted Files (1)</div><ul class="file-list"><li class="filterable" data-name="src/components/Footer.tsx"><span class="status del">-</span> src/components/Footer.tsx <span class="lang">(54.0 B)</span></li></ul>
+<div class="section-title" style="color:var(--red)">- Deleted Files (5)</div>
+<ul class="file-list">
+    <li class="filterable" data-name="data/legacy.db"><span class="status del">-</span> data/legacy.db <span class="lang">(45.2 KB)</span></li>
+    <li class="filterable" data-name="data/legacy.db-journal"><span class="status del">-</span> data/legacy.db-journal <span class="lang">(8.5 KB)</span></li>
+    <li class="filterable" data-name="log/debug_2025-01-15.log"><span class="status del">-</span> log/debug_2025-01-15.log <span class="lang">(124.3 KB)</span></li>
+    <li class="filterable" data-name="src/deprecated/old_handler.py"><span class="status del">-</span> src/deprecated/old_handler.py <span class="lang">(3.2 KB)</span></li>
+    <li class="filterable" data-name="templates/legacy_view.html"><span class="status del">-</span> templates/legacy_view.html <span class="lang">(1.9 KB)</span></li>
+</ul>
 
+<div class="section-title" style="color:var(--magenta)">~ Binary Modified (3)</div>
+<ul class="file-list">
+    <li class="filterable" data-name="data/app.db"><span class="status bin">~</span> data/app.db <span class="lang">(128.0 KB → 156.0 KB)</span></li>
+    <li class="filterable" data-name="static/images/logo.png"><span class="status bin">~</span> static/images/logo.png <span class="lang">(24.5 KB → 18.2 KB)</span></li>
+    <li class="filterable" data-name="static/fonts/custom.woff2"><span class="status bin">~</span> static/fonts/custom.woff2 <span class="lang">(45.0 KB → 52.0 KB)</span></li>
+</ul>
 
-
-<div class="section-title" style="color:var(--yellow)">~ Modified Files (3)</div>
-        <details class="file-diff" id="public/styles.css">
+<div class="section-title" style="color:var(--yellow)">~ Modified Files (6)</div>
+        <details class="file-diff" id="app.py">
             <summary>
                 <span class="status mod">~</span>
-                <span class="filepath">public/styles.css</span>
-                <span class="lang">CSS</span>
-                <span class="stats"><span class="add">+4</span> <span class="del">-3</span></span>
+                <span class="filepath">app.py</span>
+                <span class="lang">Python</span>
+                <span class="stats"><span class="add">+18</span> <span class="del">-5</span></span>
             </summary>
-            <div class="diff-content"><div class="diff-header">--- original/public/styles.css</div><div class="diff-header">+++ modified/public/styles.css</div><div class="diff-hunk">@@ -1,3 +1,4 @@</div><div class="diff-del">-.header { background: #333; color: white; padding: 1rem; }</div><div class="diff-del">-.footer { background: #222; color: #ccc; padding: 0.5rem; }</div><div class="diff-del">-body { margin: 0; font-family: sans-serif; }</div><div class="diff-add">+.header { background: #1a1a2e; color: white; padding: 1.5rem; transition: all 0.3s; }</div><div class="diff-add">+.header.dark { background: #0f0f1a; }</div><div class="diff-add">+.subtitle { font-size: 0.9rem; opacity: 0.8; margin-top: 0.25rem; }</div><div class="diff-add">+body { margin: 0; font-family: 'Inter', sans-serif; }</div></div>
+            <div class="diff-content"><div class="diff-header">--- original/app.py</div><div class="diff-header">+++ modified/app.py</div><div class="diff-hunk">@@ -1,8 +1,12 @@</div><div class="diff-ctx"> from flask import Flask, render_template</div><div class="diff-add">+from services.analytics import track_event</div><div class="diff-add">+from utils.cache import cached</div><div class="diff-ctx"> </div><div class="diff-ctx"> app = Flask(__name__)</div><div class="diff-add">+app.config.from_file('config/settings.yaml')</div><div class="diff-ctx"> </div><div class="diff-ctx"> @app.route('/')</div><div class="diff-add">+@cached(ttl=300)</div><div class="diff-ctx"> def index():</div><div class="diff-del">-    return render_template('index.html')</div><div class="diff-add">+    track_event('page_view', {'page': 'home'})</div><div class="diff-add">+    return render_template('index.html', version='2.0')</div></div>
         </details>
-        <details class="file-diff" id="src/components/Header.tsx">
+        <details class="file-diff" id="config.py">
             <summary>
                 <span class="status mod">~</span>
-                <span class="filepath">src/components/Header.tsx</span>
-                <span class="lang">React TSX</span>
-                <span class="stats"><span class="add">+6</span> <span class="del">-2</span></span>
+                <span class="filepath">config.py</span>
+                <span class="lang">Python</span>
+                <span class="stats"><span class="add">+12</span> <span class="del">-8</span></span>
             </summary>
-            <div class="diff-content"><div class="diff-header">--- original/src/components/Header.tsx</div><div class="diff-header">+++ modified/src/components/Header.tsx</div><div class="diff-hunk">@@ -1,13 +1,17 @@</div><div class="diff-ctx"> import React from 'react';</div><div class="diff-add">+import { useTheme } from '../hooks/useTheme';</div><div class="diff-ctx"> </div><div class="diff-ctx"> interface HeaderProps {</div><div class="diff-ctx">   title: string;</div><div class="diff-add">+  subtitle?: string;</div><div class="diff-ctx"> }</div><div class="diff-ctx"> </div><div class="diff-del">-export const Header: React.FC&lt;HeaderProps&gt; = ({ title }) =&gt; {</div><div class="diff-add">+export const Header: React.FC&lt;HeaderProps&gt; = ({ title, subtitle }) =&gt; {</div><div class="diff-add">+  const { theme } = useTheme();</div><div class="diff-ctx">   return (</div><div class="diff-del">-    &lt;header className="header"&gt;</div><div class="diff-add">+    &lt;header className={`header ${theme}`}&gt;</div><div class="diff-ctx">       &lt;h1&gt;{title}&lt;/h1&gt;</div><div class="diff-add">+      {subtitle &amp;&amp; &lt;p className="subtitle"&gt;{subtitle}&lt;/p&gt;}</div><div class="diff-ctx">     &lt;/header&gt;</div><div class="diff-ctx">   );</div><div class="diff-ctx"> };</div></div>
+            <div class="diff-content"><div class="diff-header">--- original/config.py</div><div class="diff-header">+++ modified/config.py</div><div class="diff-hunk">@@ -1,10 +1,14 @@</div><div class="diff-ctx"> import os</div><div class="diff-add">+from pathlib import Path</div><div class="diff-ctx"> </div><div class="diff-del">-DEBUG = True</div><div class="diff-del">-DATABASE = 'data/legacy.db'</div><div class="diff-del">-LOG_LEVEL = 'DEBUG'</div><div class="diff-add">+DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'</div><div class="diff-add">+DATABASE = Path('data/app.db')</div><div class="diff-add">+LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')</div><div class="diff-add">+</div><div class="diff-add">+# Cache settings</div><div class="diff-add">+CACHE_TTL = 300</div><div class="diff-add">+CACHE_BACKEND = 'redis'</div></div>
         </details>
-        <details class="file-diff" id="src/pages/index.tsx">
+        <details class="file-diff" id="emailer.py">
             <summary>
                 <span class="status mod">~</span>
-                <span class="filepath">src/pages/index.tsx</span>
-                <span class="lang">React TSX</span>
-                <span class="stats"><span class="add">+3</span> <span class="del">-2</span></span>
+                <span class="filepath">emailer.py</span>
+                <span class="lang">Python</span>
+                <span class="stats"><span class="add">+24</span> <span class="del">-11</span></span>
             </summary>
-            <div class="diff-content"><div class="diff-header">--- original/src/pages/index.tsx</div><div class="diff-header">+++ modified/src/pages/index.tsx</div><div class="diff-hunk">@@ -1,10 +1,11 @@</div><div class="diff-ctx"> import { Header } from '../components/Header';</div><div class="diff-add">+import { formatDate } from '../utils/helpers';</div><div class="diff-ctx"> </div><div class="diff-ctx"> export default function Home() {</div><div class="diff-ctx">   return (</div><div class="diff-ctx">     &lt;div&gt;</div><div class="diff-del">-      &lt;Header title="Welcome" /&gt;</div><div class="diff-del">-      &lt;p&gt;Hello World&lt;/p&gt;</div><div class="diff-add">+      &lt;Header title="Welcome" subtitle="Dashboard" /&gt;</div><div class="diff-add">+      &lt;p&gt;Hello World - {formatDate(new Date())}&lt;/p&gt;</div><div class="diff-ctx">     &lt;/div&gt;</div><div class="diff-ctx">   );</div><div class="diff-ctx"> }</div></div>
+            <div class="diff-content"><div class="diff-header">--- original/emailer.py</div><div class="diff-header">+++ modified/emailer.py</div><div class="diff-hunk">@@ -5,15 +5,28 @@</div><div class="diff-ctx"> from email.mime.text import MIMEText</div><div class="diff-add">+from email.mime.multipart import MIMEMultipart</div><div class="diff-add">+import logging</div><div class="diff-add">+</div><div class="diff-add">+logger = logging.getLogger(__name__)</div><div class="diff-ctx"> </div><div class="diff-ctx"> class Emailer:</div><div class="diff-del">-    def __init__(self, smtp_host, smtp_port):</div><div class="diff-add">+    def __init__(self, smtp_host, smtp_port, use_tls=True):</div><div class="diff-ctx">         self.smtp_host = smtp_host</div><div class="diff-ctx">         self.smtp_port = smtp_port</div><div class="diff-add">+        self.use_tls = use_tls</div><div class="diff-ctx"> </div><div class="diff-del">-    def send(self, to, subject, body):</div><div class="diff-del">-        msg = MIMEText(body)</div><div class="diff-add">+    def send(self, to, subject, body, html_body=None):</div><div class="diff-add">+        if html_body:</div><div class="diff-add">+            msg = MIMEMultipart('alternative')</div><div class="diff-add">+            msg.attach(MIMEText(body, 'plain'))</div><div class="diff-add">+            msg.attach(MIMEText(html_body, 'html'))</div><div class="diff-add">+        else:</div><div class="diff-add">+            msg = MIMEText(body)</div><div class="diff-ctx">         msg['Subject'] = subject</div><div class="diff-ctx">         msg['To'] = to</div><div class="diff-del">-        # TODO: implement actual sending</div><div class="diff-del">-        print(f"Would send email to {to}")</div><div class="diff-add">+        </div><div class="diff-add">+        with smtplib.SMTP(self.smtp_host, self.smtp_port) as server:</div><div class="diff-add">+            if self.use_tls:</div><div class="diff-add">+                server.starttls()</div><div class="diff-add">+            server.send_message(msg)</div><div class="diff-add">+            logger.info(f"Email sent to {to}")</div></div>
+        </details>
+        <details class="file-diff" id="templates/base.html">
+            <summary>
+                <span class="status mod">~</span>
+                <span class="filepath">templates/base.html</span>
+                <span class="lang">HTML</span>
+                <span class="stats"><span class="add">+8</span> <span class="del">-3</span></span>
+            </summary>
+            <div class="diff-content"><div class="diff-header">--- original/templates/base.html</div><div class="diff-header">+++ modified/templates/base.html</div><div class="diff-hunk">@@ -3,9 +3,14 @@</div><div class="diff-ctx"> &lt;head&gt;</div><div class="diff-ctx">     &lt;meta charset="UTF-8"&gt;</div><div class="diff-del">-    &lt;title&gt;My App&lt;/title&gt;</div><div class="diff-add">+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</div><div class="diff-add">+    &lt;title&gt;{% block title %}My App v2{% endblock %}&lt;/title&gt;</div><div class="diff-add">+    &lt;link rel="stylesheet" href="/static/css/main.css"&gt;</div><div class="diff-ctx"> &lt;/head&gt;</div><div class="diff-ctx"> &lt;body&gt;</div><div class="diff-del">-    {% block content %}{% endblock %}</div><div class="diff-add">+    &lt;header&gt;{% include 'partials/nav.html' %}&lt;/header&gt;</div><div class="diff-add">+    &lt;main&gt;{% block content %}{% endblock %}&lt;/main&gt;</div><div class="diff-add">+    &lt;footer&gt;© 2026 My App&lt;/footer&gt;</div><div class="diff-add">+    &lt;script src="/static/js/app.js"&gt;&lt;/script&gt;</div><div class="diff-ctx"> &lt;/body&gt;</div><div class="diff-ctx"> &lt;/html&gt;</div></div>
+        </details>
+        <details class="file-diff" id="templates/index.html">
+            <summary>
+                <span class="status mod">~</span>
+                <span class="filepath">templates/index.html</span>
+                <span class="lang">HTML</span>
+                <span class="stats"><span class="add">+15</span> <span class="del">-4</span></span>
+            </summary>
+            <div class="diff-content"><div class="diff-header">--- original/templates/index.html</div><div class="diff-header">+++ modified/templates/index.html</div><div class="diff-hunk">@@ -1,6 +1,17 @@</div><div class="diff-ctx"> {% extends 'base.html' %}</div><div class="diff-add">+{% block title %}Home - My App{% endblock %}</div><div class="diff-ctx"> </div><div class="diff-ctx"> {% block content %}</div><div class="diff-del">-&lt;h1&gt;Welcome&lt;/h1&gt;</div><div class="diff-del">-&lt;p&gt;Hello World&lt;/p&gt;</div><div class="diff-add">+&lt;div class="hero"&gt;</div><div class="diff-add">+    &lt;h1&gt;Welcome to My App v{{ version }}&lt;/h1&gt;</div><div class="diff-add">+    &lt;p class="subtitle"&gt;A better way to manage your data&lt;/p&gt;</div><div class="diff-add">+&lt;/div&gt;</div><div class="diff-add">+</div><div class="diff-add">+&lt;section class="features"&gt;</div><div class="diff-add">+    &lt;div class="feature"&gt;Analytics&lt;/div&gt;</div><div class="diff-add">+    &lt;div class="feature"&gt;Caching&lt;/div&gt;</div><div class="diff-add">+    &lt;div class="feature"&gt;Email&lt;/div&gt;</div><div class="diff-add">+&lt;/section&gt;</div><div class="diff-ctx"> {% endblock %}</div></div>
+        </details>
+        <details class="file-diff" id="log/app.log">
+            <summary>
+                <span class="status mod">~</span>
+                <span class="filepath">log/app.log</span>
+                <span class="lang">LOG</span>
+                <span class="stats"><span class="add">+12</span> <span class="del">-3</span></span>
+            </summary>
+            <div class="diff-content"><div class="diff-header">--- original/log/app.log</div><div class="diff-header">+++ modified/log/app.log</div><div class="diff-hunk">@@ -1,5 +1,14 @@</div><div class="diff-ctx"> 2026-02-01 10:00:00 INFO  Application started</div><div class="diff-ctx"> 2026-02-01 10:00:01 INFO  Database connected</div><div class="diff-del">-2026-02-01 10:00:02 DEBUG Loading legacy module</div><div class="diff-del">-2026-02-01 10:00:03 WARN  Legacy module deprecated</div><div class="diff-add">+2026-02-01 10:00:02 INFO  Cache initialized (redis)</div><div class="diff-add">+2026-02-01 10:00:03 INFO  Analytics service ready</div><div class="diff-add">+2026-02-02 09:15:00 INFO  Application started</div><div class="diff-add">+2026-02-02 09:15:01 INFO  Database connected</div><div class="diff-add">+2026-02-02 09:15:02 INFO  Cache initialized (redis)</div><div class="diff-add">+2026-02-02 14:30:00 INFO  Email sent to user@example.com</div><div class="diff-add">+2026-02-03 08:00:00 INFO  Application started</div><div class="diff-add">+2026-02-03 08:00:01 INFO  Database migration completed</div><div class="diff-add">+2026-02-03 08:00:02 INFO  Cache warmed up</div><div class="diff-ctx"> 2026-02-03 16:12:00 INFO  Ready to serve requests</div></div>
         </details>
 
 <script>

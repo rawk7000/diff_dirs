@@ -52,12 +52,14 @@ class C:
 DEFAULT_CONFIG_NAME = "diff_dirs.yaml"
 
 BINARY_EXTENSIONS = {
-    ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".ico", ".webp", ".svg",
+    ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".ico", ".webp", ".svg", ".tiff",
     ".woff", ".woff2", ".ttf", ".eot", ".otf",
-    ".pdf", ".zip", ".tar", ".gz", ".jar", ".war", ".class",
-    ".mp3", ".mp4", ".avi", ".mov", ".wav",
-    ".exe", ".dll", ".so", ".dylib",
-    ".lock", ".sqlite", ".db",
+    ".pdf", ".zip", ".tar", ".gz", ".7z", ".rar", ".jar", ".war", ".class",
+    ".mp3", ".mp4", ".avi", ".mov", ".wav", ".flac", ".ogg", ".webm",
+    ".exe", ".dll", ".so", ".dylib", ".bin", ".msi",
+    ".sqlite", ".db", ".db-journal", ".db-shm", ".db-wal",
+    ".pyc", ".pyo", ".o", ".obj", ".a", ".lib",
+    ".ico", ".icns", ".cur",
 }
 
 LANG_MAP = {
@@ -66,7 +68,8 @@ LANG_MAP = {
     ".html": "HTML", ".json": "JSON", ".yaml": "YAML", ".yml": "YAML",
     ".xml": "XML", ".md": "Markdown", ".sql": "SQL", ".sh": "Shell",
     ".env": "Environment", ".properties": "Properties", ".gradle": "Gradle",
-    ".toml": "TOML", ".cfg": "Config",
+    ".toml": "TOML", ".cfg": "Config", ".log": "Log", ".txt": "Text",
+    ".ini": "INI", ".conf": "Config", ".bat": "Batch", ".ps1": "PowerShell",
 }
 
 INIT_CONFIG = """\
@@ -115,7 +118,7 @@ filter:
 
   # Files/patterns to ignore (glob syntax)
   ignore_files:
-    - "*.log"
+    # - "*.log"          # uncomment to ignore log files
     - ".DS_Store"
     - "Thumbs.db"
     - "*.pyc"
