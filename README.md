@@ -4,9 +4,13 @@ Recursive project folder comparison for projects without Git.
 Compares two versions of a project and shows all differences –
 new, deleted, and modified files with line-by-line diff.
 
-![HTML Report Example](screenshot.png)
+<p align="center">
+  <img src="screenshot.png" alt="HTML Report Example" width="800">
+</p>
 
-> Open [example-report.html](example-report.html) in your browser to see a live demo.
+<p align="center">
+  <em>Download and open <a href="example-report.html">example-report.html</a> in your browser to see a live demo.</em>
+</p>
 
 ---
 
