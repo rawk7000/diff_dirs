@@ -1,32 +1,32 @@
 # ┌──────────────────────────────────────────────────────────────┐
-# │  diff_dirs - Konfiguration                                  │
-# │  Alle Einstellungen für den Projektordner-Vergleich         │
+# │  diff_dirs - Configuration                                   │
+# │  All settings for the project folder comparison              │
 # └──────────────────────────────────────────────────────────────┘
 
-# ── Pflichtfelder ──────────────────────────────────────────────
-# Pfade können absolut oder relativ zur Config-Datei sein
-original: ./projekt-original
-modified: ./projekt-angepasst
+# ── Required Fields ──────────────────────────────────────────────
+# Paths can be absolute or relative to the config file
+original: ./project-original
+modified: ./project-modified
 
-# ── Ausgabe ────────────────────────────────────────────────────
+# ── Output ────────────────────────────────────────────────────
 output:
-  # HTML-Report erzeugen (false = nur Terminal-Ausgabe)
+  # Generate HTML report (false = terminal output only)
   html: true
-  # Pfad zum HTML-Report (relativ zur Config oder absolut)
+  # Path to HTML report (relative to config or absolute)
   html_path: ./diff-report.html
 
-  # Farbige Terminal-Ausgabe
+  # Colored terminal output
   color: true
 
-  # Inhalts-Diffs anzeigen (false = nur Dateiliste)
+  # Show content diffs (false = file list only)
   show_content: true
 
-  # Kontextzeilen um jede Änderung herum
+  # Context lines around each change
   context_lines: 3
 
 # ── Filter ─────────────────────────────────────────────────────
 filter:
-  # Ordner die komplett ignoriert werden
+  # Directories to completely ignore
   ignore_dirs:
     - node_modules
     - .next
@@ -41,15 +41,15 @@ filter:
     - .idea
     - .vscode
 
-  # Dateien/Muster die ignoriert werden (glob-Syntax)
+  # Files/patterns to ignore (glob syntax)
   ignore_files:
     - "*.log"
     - ".DS_Store"
     - "Thumbs.db"
     - "*.pyc"
 
-  # Nur bestimmte Dateitypen vergleichen
-  # Leer lassen oder auskommentieren = alle Dateitypen
+  # Only compare specific file types
+  # Leave empty or comment out = all file types
   # extensions:
   #   - .ts
   #   - .tsx

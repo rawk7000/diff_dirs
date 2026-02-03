@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-diff_dirs – Projektordner rekursiv vergleichen.
-Liest alle Einstellungen aus einer YAML-Konfigurationsdatei.
+diff_dirs – Compare project folders recursively.
+Reads all settings from a YAML configuration file.
 
 Usage:
-    python diff_dirs.py                     # sucht diff_dirs.yaml im aktuellen Ordner
-    python diff_dirs.py meine_config.yaml   # eigene Config-Datei angeben
-    python diff_dirs.py --init              # erzeugt eine Beispiel-Konfiguration
+    python diff_dirs.py                     # looks for diff_dirs.yaml in current folder
+    python diff_dirs.py my_config.yaml      # specify custom config file
+    python diff_dirs.py --init              # generates an example configuration
 """
 
 import os
@@ -21,13 +21,13 @@ from collections import defaultdict
 try:
     import yaml
 except ImportError:
-    print("PyYAML wird benötigt. Installieren mit:")
+    print("PyYAML is required. Install with:")
     print("  pip install pyyaml")
     sys.exit(1)
 
 
 # ══════════════════════════════════════════════
-# ANSI Farben
+# ANSI Colors
 # ══════════════════════════════════════════════
 class C:
     RED = "\033[91m"
@@ -47,7 +47,7 @@ class C:
 
 
 # ══════════════════════════════════════════════
-# Konstanten
+# Constants
 # ══════════════════════════════════════════════
 DEFAULT_CONFIG_NAME = "diff_dirs.yaml"
 
@@ -71,34 +71,34 @@ LANG_MAP = {
 
 INIT_CONFIG = """\
 # ┌──────────────────────────────────────────────────────────────┐
-# │  diff_dirs - Konfiguration                                  │
-# │  Alle Einstellungen für den Projektordner-Vergleich         │
+# │  diff_dirs - Configuration                                   │
+# │  All settings for the project folder comparison              │
 # └──────────────────────────────────────────────────────────────┘
 
-# ── Pflichtfelder ──────────────────────────────────────────────
-# Pfade können absolut oder relativ zur Config-Datei sein
-original: ./projekt-original
-modified: ./projekt-angepasst
+# ── Required Fields ──────────────────────────────────────────────
+# Paths can be absolute or relative to the config file
+original: ./project-original
+modified: ./project-modified
 
-# ── Ausgabe ────────────────────────────────────────────────────
+# ── Output ────────────────────────────────────────────────────
 output:
-  # HTML-Report erzeugen (false = nur Terminal-Ausgabe)
+  # Generate HTML report (false = terminal output only)
   html: true
-  # Pfad zum HTML-Report (relativ zur Config oder absolut)
+  # Path to HTML report (relative to config or absolute)
   html_path: ./diff-report.html
 
-  # Farbige Terminal-Ausgabe
+  # Colored terminal output
   color: true
 
-  # Inhalts-Diffs anzeigen (false = nur Dateiliste)
+  # Show content diffs (false = file list only)
   show_content: true
 
-  # Kontextzeilen um jede Änderung herum
+  # Context lines around each change
   context_lines: 3
 
 # ── Filter ─────────────────────────────────────────────────────
 filter:
-  # Ordner die komplett ignoriert werden
+  # Directories to completely ignore
   ignore_dirs:
     - node_modules
     - .next
@@ -113,15 +113,15 @@ filter:
     - .idea
     - .vscode
 
-  # Dateien/Muster die ignoriert werden (glob-Syntax)
+  # Files/patterns to ignore (glob syntax)
   ignore_files:
     - "*.log"
     - ".DS_Store"
     - "Thumbs.db"
     - "*.pyc"
 
-  # Nur bestimmte Dateitypen vergleichen
-  # Leer lassen oder auskommentieren = alle Dateitypen
+  # Only compare specific file types
+  # Leave empty or comment out = all file types
   # extensions:
   #   - .ts
   #   - .tsx
@@ -133,10 +133,10 @@ filter:
 
 
 # ══════════════════════════════════════════════
-# Konfiguration laden
+# Load Configuration
 # ══════════════════════════════════════════════
 class Config:
-    """Lädt und validiert die YAML-Konfiguration."""
+    """Loads and validates the YAML configuration."""
 
     def __init__(self, config_path: Path):
         self.config_path = config_path.resolve()
@@ -146,16 +146,16 @@ class Config:
             raw = yaml.safe_load(f)
 
         if not isinstance(raw, dict):
-            self._error("Config-Datei ist leer oder ungültig.")
+            self._error("Config file is empty or invalid.")
 
-        # Pflichtfelder
+        # Required fields
         if "original" not in raw or "modified" not in raw:
-            self._error("'original' und 'modified' müssen in der Config gesetzt sein.")
+            self._error("'original' and 'modified' must be set in the config.")
 
         self.dir_original = self._resolve_path(raw["original"])
         self.dir_modified = self._resolve_path(raw["modified"])
 
-        # Ausgabe
+        # Output
         out = raw.get("output", {}) or {}
         self.html = out.get("html", False)
         self.html_path = self._resolve_path(out.get("html_path", "./diff-report.html"))
@@ -175,29 +175,29 @@ class Config:
             )
 
     def _resolve_path(self, p):
-        """Pfade relativ zur Config-Datei auflösen."""
+        """Resolve paths relative to the config file."""
         path = Path(p)
         if not path.is_absolute():
             path = self.config_dir / path
         return path.resolve()
 
     def _error(self, msg):
-        print(f"\033[91mConfig-Fehler: {msg}\033[0m")
+        print(f"\033[91mConfig Error: {msg}\033[0m")
         sys.exit(1)
 
     def validate(self):
         if not self.dir_original.exists():
-            self._error(f"Original-Ordner existiert nicht: {self.dir_original}")
+            self._error(f"Original folder does not exist: {self.dir_original}")
         if not self.dir_modified.exists():
-            self._error(f"Geänderter Ordner existiert nicht: {self.dir_modified}")
+            self._error(f"Modified folder does not exist: {self.dir_modified}")
         if not self.dir_original.is_dir():
-            self._error(f"Ist kein Ordner: {self.dir_original}")
+            self._error(f"Not a folder: {self.dir_original}")
         if not self.dir_modified.is_dir():
-            self._error(f"Ist kein Ordner: {self.dir_modified}")
+            self._error(f"Not a folder: {self.dir_modified}")
 
 
 # ══════════════════════════════════════════════
-# Hilfsfunktionen
+# Helper Functions
 # ══════════════════════════════════════════════
 def is_binary(filepath):
     ext = Path(filepath).suffix.lower()
@@ -246,12 +246,12 @@ def get_lang(filepath):
 
 
 def matches_ignore(filename, patterns):
-    """Prüft ob ein Dateiname auf ein ignore-Pattern passt."""
+    """Check if a filename matches an ignore pattern."""
     return any(fnmatch.fnmatch(filename, p) for p in patterns)
 
 
 def collect_files(base_dir, ignore_dirs, ignore_files, extensions=None):
-    """Sammelt alle Dateien rekursiv unter Berücksichtigung aller Filter."""
+    """Collect all files recursively considering all filters."""
     result = set()
     base = Path(base_dir).resolve()
     for root, dirs, files in os.walk(base):
@@ -268,7 +268,7 @@ def collect_files(base_dir, ignore_dirs, ignore_files, extensions=None):
 
 
 # ══════════════════════════════════════════════
-# Diff-Ergebnis
+# Diff Result
 # ══════════════════════════════════════════════
 class FileDiff:
     def __init__(self, rel_path, status, details=None):
@@ -282,7 +282,7 @@ class FileDiff:
 
 
 # ══════════════════════════════════════════════
-# Hauptvergleich
+# Main Comparison
 # ══════════════════════════════════════════════
 def compare_directories(cfg: Config):
     files_a = collect_files(cfg.dir_original, cfg.ignore_dirs, cfg.ignore_files, cfg.extensions)
@@ -294,19 +294,19 @@ def compare_directories(cfg: Config):
 
     diffs = []
 
-    # Gelöscht (nur in Original)
+    # Deleted (only in Original)
     for rel in sorted(only_in_a):
         fp = cfg.dir_original / rel
         d = FileDiff(rel, "deleted", {"size": fp.stat().st_size if fp.exists() else 0})
         diffs.append(d)
 
-    # Neu (nur in Modified)
+    # New (only in Modified)
     for rel in sorted(only_in_b):
         fp = cfg.dir_modified / rel
         d = FileDiff(rel, "added", {"size": fp.stat().st_size if fp.exists() else 0})
         diffs.append(d)
 
-    # Gemeinsame Dateien
+    # Common files
     for rel in sorted(common):
         fp_a = cfg.dir_original / rel
         fp_b = cfg.dir_modified / rel
@@ -353,7 +353,7 @@ def compare_directories(cfg: Config):
 
 
 # ══════════════════════════════════════════════
-# Terminal-Ausgabe
+# Terminal Output
 # ══════════════════════════════════════════════
 def print_report(diffs, total_a, total_b, common, cfg: Config):
     added = [d for d in diffs if d.status == "added"]
@@ -374,24 +374,24 @@ def print_report(diffs, total_a, total_b, common, cfg: Config):
     print(f"{C.BOLD}  DIRECTORY DIFF REPORT{C.RESET}")
     print(f"{C.BOLD}{'═' * 70}{C.RESET}")
     print(f"  {C.DIM}Original:{C.RESET}  {cfg.dir_original}")
-    print(f"  {C.DIM}Geändert:{C.RESET}  {cfg.dir_modified}")
+    print(f"  {C.DIM}Modified:{C.RESET}  {cfg.dir_modified}")
     print(f"  {C.DIM}Config:{C.RESET}    {cfg.config_path}")
-    print(f"  {C.DIM}Zeitpunkt:{C.RESET} {datetime.now().strftime('%d.%m.%Y %H:%M:%S')}")
+    print(f"  {C.DIM}Timestamp:{C.RESET} {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{C.BOLD}{'─' * 70}{C.RESET}")
 
-    print(f"\n  {C.BOLD}ÜBERSICHT{C.RESET}")
-    print(f"  Dateien im Original:    {total_a}")
-    print(f"  Dateien in Geändert:    {total_b}")
-    print(f"  Unverändert:            {C.DIM}{unchanged}{C.RESET}")
-    print(f"  {C.GREEN}+ Neue Dateien:          {len(added)}{C.RESET}")
-    print(f"  {C.RED}- Gelöschte Dateien:     {len(deleted)}{C.RESET}")
-    print(f"  {C.YELLOW}~ Geänderte Dateien:     {len(modified)}{C.RESET}")
-    print(f"  {C.MAGENTA}~ Binär geändert:        {len(bin_mod)}{C.RESET}")
-    print(f"  {C.CYAN}Zeilen hinzugefügt:      +{total_lines_added}{C.RESET}")
-    print(f"  {C.RED}Zeilen entfernt:         -{total_lines_removed}{C.RESET}")
+    print(f"\n  {C.BOLD}OVERVIEW{C.RESET}")
+    print(f"  Files in Original:      {total_a}")
+    print(f"  Files in Modified:      {total_b}")
+    print(f"  Unchanged:              {C.DIM}{unchanged}{C.RESET}")
+    print(f"  {C.GREEN}+ New Files:             {len(added)}{C.RESET}")
+    print(f"  {C.RED}- Deleted Files:         {len(deleted)}{C.RESET}")
+    print(f"  {C.YELLOW}~ Modified Files:        {len(modified)}{C.RESET}")
+    print(f"  {C.MAGENTA}~ Binary Modified:       {len(bin_mod)}{C.RESET}")
+    print(f"  {C.CYAN}Lines Added:             +{total_lines_added}{C.RESET}")
+    print(f"  {C.RED}Lines Removed:           -{total_lines_removed}{C.RESET}")
 
     if lang_stats:
-        print(f"\n  {C.BOLD}NACH DATEITYP{C.RESET}")
+        print(f"\n  {C.BOLD}BY FILE TYPE{C.RESET}")
         for lang in sorted(lang_stats):
             s = lang_stats[lang]
             parts = []
@@ -402,21 +402,21 @@ def print_report(diffs, total_a, total_b, common, cfg: Config):
 
     if added:
         print(f"\n{C.BOLD}{'─' * 70}{C.RESET}")
-        print(f"  {C.GREEN}{C.BOLD}NEUE DATEIEN ({len(added)}){C.RESET}")
+        print(f"  {C.GREEN}{C.BOLD}NEW FILES ({len(added)}){C.RESET}")
         for d in sorted(added, key=lambda x: x.rel_path):
             size = file_size_human(d.details.get("size", 0))
             print(f"    {C.GREEN}+ {d.rel_path}{C.RESET}  {C.DIM}({size}){C.RESET}")
 
     if deleted:
         print(f"\n{C.BOLD}{'─' * 70}{C.RESET}")
-        print(f"  {C.RED}{C.BOLD}GELÖSCHTE DATEIEN ({len(deleted)}){C.RESET}")
+        print(f"  {C.RED}{C.BOLD}DELETED FILES ({len(deleted)}){C.RESET}")
         for d in sorted(deleted, key=lambda x: x.rel_path):
             size = file_size_human(d.details.get("size", 0))
             print(f"    {C.RED}- {d.rel_path}{C.RESET}  {C.DIM}({size}){C.RESET}")
 
     if bin_mod:
         print(f"\n{C.BOLD}{'─' * 70}{C.RESET}")
-        print(f"  {C.MAGENTA}{C.BOLD}BINÄR GEÄNDERT ({len(bin_mod)}){C.RESET}")
+        print(f"  {C.MAGENTA}{C.BOLD}BINARY MODIFIED ({len(bin_mod)}){C.RESET}")
         for d in sorted(bin_mod, key=lambda x: x.rel_path):
             sa = file_size_human(d.details.get("size_a", 0))
             sb = file_size_human(d.details.get("size_b", 0))
@@ -424,7 +424,7 @@ def print_report(diffs, total_a, total_b, common, cfg: Config):
 
     if modified:
         print(f"\n{C.BOLD}{'─' * 70}{C.RESET}")
-        print(f"  {C.YELLOW}{C.BOLD}GEÄNDERTE DATEIEN ({len(modified)}){C.RESET}")
+        print(f"  {C.YELLOW}{C.BOLD}MODIFIED FILES ({len(modified)}){C.RESET}")
 
         for d in sorted(modified, key=lambda x: x.rel_path):
             sa = file_size_human(d.details.get("size_a", 0))
@@ -449,7 +449,7 @@ def print_report(diffs, total_a, total_b, common, cfg: Config):
                         print(f"      {C.DIM}{line}{C.RESET}")
 
     if not diffs:
-        print(f"\n  {C.GREEN}{C.BOLD}✓ Keine Unterschiede gefunden! Die Ordner sind identisch.{C.RESET}")
+        print(f"\n  {C.GREEN}{C.BOLD}✓ No differences found! The folders are identical.{C.RESET}")
 
     print(f"\n{C.BOLD}{'═' * 70}{C.RESET}\n")
 
@@ -497,10 +497,10 @@ def generate_html_report(diffs, total_a, total_b, common, cfg: Config):
         </details>""")
 
     html = f"""<!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Diff Report – {datetime.now().strftime('%d.%m.%Y %H:%M')}</title>
+<title>Diff Report – {datetime.now().strftime('%Y-%m-%d %H:%M')}</title>
 <style>
     :root {{ --bg: #0d1117; --fg: #c9d1d9; --border: #30363d; --green: #3fb950;
              --red: #f85149; --yellow: #d29922; --blue: #58a6ff; --magenta: #bc8cff;
@@ -555,29 +555,29 @@ def generate_html_report(diffs, total_a, total_b, common, cfg: Config):
 <h1>📂 Directory Diff Report</h1>
 <div class="meta">
     Original: <strong>{esc(str(cfg.dir_original))}</strong><br>
-    Geändert: <strong>{esc(str(cfg.dir_modified))}</strong><br>
-    Erstellt: {datetime.now().strftime('%d.%m.%Y %H:%M:%S')}
+    Modified: <strong>{esc(str(cfg.dir_modified))}</strong><br>
+    Created: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 </div>
 
 <div class="summary">
-    <div class="stat-card"><div class="number" style="color:var(--green)">{len(added)}</div><div class="label">Neue Dateien</div></div>
-    <div class="stat-card"><div class="number" style="color:var(--red)">{len(deleted)}</div><div class="label">Gelöscht</div></div>
-    <div class="stat-card"><div class="number" style="color:var(--yellow)">{len(modified)}</div><div class="label">Geändert</div></div>
-    <div class="stat-card"><div class="number" style="color:var(--magenta)">{len(bin_mod)}</div><div class="label">Binär geändert</div></div>
-    <div class="stat-card"><div class="number">+{total_added}</div><div class="label">Zeilen hinzugefügt</div></div>
-    <div class="stat-card"><div class="number" style="color:var(--red)">-{total_removed}</div><div class="label">Zeilen entfernt</div></div>
-    <div class="stat-card"><div class="number" style="color:#8b949e">{unchanged}</div><div class="label">Unverändert</div></div>
+    <div class="stat-card"><div class="number" style="color:var(--green)">{len(added)}</div><div class="label">New Files</div></div>
+    <div class="stat-card"><div class="number" style="color:var(--red)">{len(deleted)}</div><div class="label">Deleted</div></div>
+    <div class="stat-card"><div class="number" style="color:var(--yellow)">{len(modified)}</div><div class="label">Modified</div></div>
+    <div class="stat-card"><div class="number" style="color:var(--magenta)">{len(bin_mod)}</div><div class="label">Binary Modified</div></div>
+    <div class="stat-card"><div class="number">+{total_added}</div><div class="label">Lines Added</div></div>
+    <div class="stat-card"><div class="number" style="color:var(--red)">-{total_removed}</div><div class="label">Lines Removed</div></div>
+    <div class="stat-card"><div class="number" style="color:#8b949e">{unchanged}</div><div class="label">Unchanged</div></div>
 </div>
 
-<div class="filter"><input type="text" id="searchBox" placeholder="🔍 Dateinamen filtern..." oninput="filterFiles()"></div>
+<div class="filter"><input type="text" id="searchBox" placeholder="🔍 Filter filenames..." oninput="filterFiles()"></div>
 
-{'<div class="section-title" style="color:var(--green)">+ Neue Dateien (' + str(len(added)) + ')</div><ul class="file-list">' + ''.join(f'<li class="filterable" data-name="{esc(d.rel_path)}"><span class="status add">+</span> {esc(d.rel_path)} <span class="lang">({file_size_human(d.details.get("size",0))})</span></li>' for d in sorted(added, key=lambda x: x.rel_path)) + '</ul>' if added else ''}
+{'<div class="section-title" style="color:var(--green)">+ New Files (' + str(len(added)) + ')</div><ul class="file-list">' + ''.join(f'<li class="filterable" data-name="{esc(d.rel_path)}"><span class="status add">+</span> {esc(d.rel_path)} <span class="lang">({file_size_human(d.details.get("size",0))})</span></li>' for d in sorted(added, key=lambda x: x.rel_path)) + '</ul>' if added else ''}
 
-{'<div class="section-title" style="color:var(--red)">- Gelöschte Dateien (' + str(len(deleted)) + ')</div><ul class="file-list">' + ''.join(f'<li class="filterable" data-name="{esc(d.rel_path)}"><span class="status del">-</span> {esc(d.rel_path)} <span class="lang">({file_size_human(d.details.get("size",0))})</span></li>' for d in sorted(deleted, key=lambda x: x.rel_path)) + '</ul>' if deleted else ''}
+{'<div class="section-title" style="color:var(--red)">- Deleted Files (' + str(len(deleted)) + ')</div><ul class="file-list">' + ''.join(f'<li class="filterable" data-name="{esc(d.rel_path)}"><span class="status del">-</span> {esc(d.rel_path)} <span class="lang">({file_size_human(d.details.get("size",0))})</span></li>' for d in sorted(deleted, key=lambda x: x.rel_path)) + '</ul>' if deleted else ''}
 
-{'<div class="section-title" style="color:var(--magenta)">~ Binär geändert (' + str(len(bin_mod)) + ')</div><ul class="file-list">' + ''.join(f'<li class="filterable" data-name="{esc(d.rel_path)}"><span class="status bin">~</span> {esc(d.rel_path)} <span class="lang">({file_size_human(d.details.get("size_a",0))} → {file_size_human(d.details.get("size_b",0))})</span></li>' for d in sorted(bin_mod, key=lambda x: x.rel_path)) + '</ul>' if bin_mod else ''}
+{'<div class="section-title" style="color:var(--magenta)">~ Binary Modified (' + str(len(bin_mod)) + ')</div><ul class="file-list">' + ''.join(f'<li class="filterable" data-name="{esc(d.rel_path)}"><span class="status bin">~</span> {esc(d.rel_path)} <span class="lang">({file_size_human(d.details.get("size_a",0))} → {file_size_human(d.details.get("size_b",0))})</span></li>' for d in sorted(bin_mod, key=lambda x: x.rel_path)) + '</ul>' if bin_mod else ''}
 
-{'<div class="section-title" style="color:var(--yellow)">~ Geänderte Dateien (' + str(len(modified)) + ')</div>' + ''.join(diff_sections) if modified else ''}
+{'<div class="section-title" style="color:var(--yellow)">~ Modified Files (' + str(len(modified)) + ')</div>' + ''.join(diff_sections) if modified else ''}
 
 <script>
 function filterFiles() {{
@@ -600,46 +600,46 @@ function filterFiles() {{
 # Main
 # ══════════════════════════════════════════════
 def main():
-    # --init: Beispiel-Config erzeugen
+    # --init: Generate example config
     if "--init" in sys.argv:
         target = Path(DEFAULT_CONFIG_NAME)
         if target.exists():
-            print(f"{C.YELLOW}'{DEFAULT_CONFIG_NAME}' existiert bereits. Überschreiben? [j/N]{C.RESET} ", end="")
+            print(f"{C.YELLOW}'{DEFAULT_CONFIG_NAME}' already exists. Overwrite? [y/N]{C.RESET} ", end="")
             if input().strip().lower() not in ("j", "y", "ja", "yes"):
-                print("Abgebrochen.")
+                print("Cancelled.")
                 sys.exit(0)
         with open(target, "w", encoding="utf-8") as f:
             f.write(INIT_CONFIG)
-        print(f"{C.GREEN}✓ '{DEFAULT_CONFIG_NAME}' erzeugt.{C.RESET}")
-        print(f"  Passe die Pfade an und starte dann: python diff_dirs.py")
+        print(f"{C.GREEN}✓ '{DEFAULT_CONFIG_NAME}' created.{C.RESET}")
+        print(f"  Adjust the paths and then run: python diff_dirs.py")
         sys.exit(0)
 
-    # Config-Datei finden
+    # Find config file
     if len(sys.argv) > 1 and not sys.argv[1].startswith("-"):
         config_path = Path(sys.argv[1])
     else:
         config_path = Path(DEFAULT_CONFIG_NAME)
 
     if not config_path.exists():
-        print(f"{C.RED}Config-Datei '{config_path}' nicht gefunden.{C.RESET}")
-        print(f"  Erstelle eine mit:  python diff_dirs.py --init")
-        print(f"  Oder gib eine an:   python diff_dirs.py meine_config.yaml")
+        print(f"{C.RED}Config file '{config_path}' not found.{C.RESET}")
+        print(f"  Create one with:  python diff_dirs.py --init")
+        print(f"  Or specify one:   python diff_dirs.py my_config.yaml")
         sys.exit(1)
 
-    # Laden & Validieren
+    # Load & Validate
     cfg = Config(config_path)
     if not cfg.color:
         C.disable()
     cfg.validate()
 
-    # Ausführen
-    print(f"\n{C.CYAN}Vergleiche Ordner...{C.RESET}")
+    # Execute
+    print(f"\n{C.CYAN}Comparing folders...{C.RESET}")
     print(f"  {C.DIM}Config:     {cfg.config_path}{C.RESET}")
-    print(f"  {C.DIM}Ignoriere:  {', '.join(sorted(cfg.ignore_dirs))}{C.RESET}")
+    print(f"  {C.DIM}Ignoring:   {', '.join(sorted(cfg.ignore_dirs))}{C.RESET}")
     if cfg.ignore_files:
         print(f"  {C.DIM}Ign. Files: {', '.join(cfg.ignore_files)}{C.RESET}")
     if cfg.extensions:
-        print(f"  {C.DIM}Dateitypen: {', '.join(sorted(cfg.extensions))}{C.RESET}")
+        print(f"  {C.DIM}File Types: {', '.join(sorted(cfg.extensions))}{C.RESET}")
 
     diffs, total_a, total_b, common = compare_directories(cfg)
 
@@ -647,7 +647,7 @@ def main():
 
     if cfg.html:
         generate_html_report(diffs, total_a, total_b, common, cfg)
-        print(f"{C.GREEN}✓ HTML-Report: {cfg.html_path}{C.RESET}\n")
+        print(f"{C.GREEN}✓ HTML Report: {cfg.html_path}{C.RESET}\n")
 
 
 if __name__ == "__main__":
