@@ -1,0 +1,63 @@
+# ┌──────────────────────────────────────────────────────────────┐
+# │  diff_dirs - Konfiguration                                  │
+# │  Alle Einstellungen für den Projektordner-Vergleich         │
+# └──────────────────────────────────────────────────────────────┘
+
+# ── Pflichtfelder ──────────────────────────────────────────────
+# Pfade können absolut oder relativ zur Config-Datei sein
+original: ./projekt-original
+modified: ./projekt-angepasst
+
+# ── Ausgabe ────────────────────────────────────────────────────
+output:
+  # HTML-Report erzeugen (false = nur Terminal-Ausgabe)
+  html: true
+  # Pfad zum HTML-Report (relativ zur Config oder absolut)
+  html_path: ./diff-report.html
+
+  # Farbige Terminal-Ausgabe
+  color: true
+
+  # Inhalts-Diffs anzeigen (false = nur Dateiliste)
+  show_content: true
+
+  # Kontextzeilen um jede Änderung herum
+  context_lines: 3
+
+# ── Filter ─────────────────────────────────────────────────────
+filter:
+  # Ordner die komplett ignoriert werden
+  ignore_dirs:
+    - node_modules
+    - .next
+    - dist
+    - build
+    - .git
+    - __pycache__
+    - .cache
+    - .turbo
+    - target
+    - out
+    - .idea
+    - .vscode
+
+  # Dateien/Muster die ignoriert werden (glob-Syntax)
+  ignore_files:
+    - "*.log"
+    - ".DS_Store"
+    - "Thumbs.db"
+    - "*.pyc"
+
+  # Nur bestimmte Dateitypen vergleichen
+  # Leer lassen oder auskommentieren = alle Dateitypen
+  # extensions:
+  #   - .ts
+  #   - .tsx
+  #   - .js
+  #   - .jsx
+  #   - .java
+  #   - .css
+  #   - .scss
+  #   - .html
+  #   - .json
+  #   - .py
